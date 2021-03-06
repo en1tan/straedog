@@ -4,7 +4,12 @@ dotenv.config();
 // Add token
 const token = process.env.TOKEN;
 
-const bot = new TelegramBot(token, { polling: true });
+const bot = new TelegramBot(token, { webHook: true });
+
+bot.setWebHook(`https://straedog.herokuapp.com/${token}`);
+bot.openWebHook().then((response) => {
+  console.log("Running");
+});
 
 bot.onText(/\/help/, (msg, match) => {
   console.log(match);
@@ -48,3 +53,5 @@ const getMovies = (title) => {
   console.log(`You requested for movie: ${title}`);
   return title;
 };
+
+module.exports = bot;
