@@ -4,12 +4,12 @@ dotenv.config();
 // Add token
 const token = process.env.TOKEN;
 
-const bot = new TelegramBot(token, { webHook: true });
+const bot = new TelegramBot(token, { polling: true });
 
-bot.setWebHook(`https://straedog.herokuapp.com/${token}`);
-bot.openWebHook().then((response) => {
-  console.log("Running");
-});
+// bot.setWebHook(`https://straedog.herokuapp.com/${token}`);
+// bot.openWebHook().then((response) => {
+//   console.log("Running");
+// });
 
 bot.onText(/\/help/, (msg, match) => {
   console.log(match);
@@ -25,8 +25,6 @@ bot.onText(/\/help/, (msg, match) => {
 
 bot.onText(/\/series (.+)/, (msg, match) => {
   const chatId = msg.chat.id;
-  const adminStatus = bot.getChatMember(chatId, msg.from.id);
-  console.log(adminStatus.user);
   const title = getSeries(match[1]);
   bot.sendMessage(chatId, `/${title} coming up...`, {
     reply_to_message_id: msg.message_id,
@@ -34,6 +32,7 @@ bot.onText(/\/series (.+)/, (msg, match) => {
 });
 
 bot.onText(/\/movie (.+)/, (msg, match) => {
+  const chatId = msg.chat.id;
   const title = getMovies(match[1]);
   bot
     .sendMessage(chatId, `${title} coming up...`, {
