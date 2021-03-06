@@ -4,7 +4,7 @@ dotenv.config();
 // Add token
 const token = process.env.TOKEN;
 
-const bot = new TelegramBot(token, { polling: true });
+const bot = new TelegramBot(token, { webhook: true });
 
 bot.setWebHook(`https://straedog.herokuapp.com/${token}`);
 bot.openWebHook().then((response) => {
