@@ -4,13 +4,18 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "node index.js"
+    "tsc":"tsc",
+    "start:prod": "tsc & node dist/index.js"
   },
   "dependencies": {
+    "axios": "^0.21.1",
     "dotenv": "^8.2.0",
-    "node-telegram-bot-api": "^0.51.0"
+    "node-telegram-bot-api": "^0.51.0",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.2.3"
   },
   "devDependencies": {
+    "@types/node-telegram-bot-api": "^0.51.1",
     "nodemon": "^2.0.7"
   }
 }
