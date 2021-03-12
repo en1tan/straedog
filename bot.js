@@ -34,9 +34,11 @@ async requestLink() {
       this.bot.sendPhoto(chatId, `${movieData.poster}`, {
         reply_to_message_id: msg.message_id
       }).then((response) => {
-        this.bot.sendMessage(chatId, `*${movieData.title}* \n _${movieData.genre}_ \n ${movieData.link}`, {
+      console.log(movieData);
+        this.bot.sendMessage(chatId, `<b>${movieData.title}</b> \n <i>${movieData.genre}</i>
+		 \n ${movieData.link}`, {
           reply_to_message_id: response.message_id,
-          parse_mode: 'Markdown'
+          parse_mode: 'html'
         })
       })
     });
@@ -44,7 +46,7 @@ async requestLink() {
 
   async getMovie(name) {
     try {
-      const response = await this.http.post(`${this.movieApiUrl}/get`, { name: name });
+      const response = await http.post(`${this.movieApiUrl}/get`, { name: name });
       return response.data.data
     } catch (err) {
       return err;
