@@ -4,8 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "tsc": "tsc",
-    "start:prod": "tsc --build && node /dist/index.js"
+    "start:prod": "node index.js"
   },
   "dependencies": {
     "@types/node": "^14.14.33",

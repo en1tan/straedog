@@ -1,21 +1,11 @@
-import * as axios from 'axios';
-import * as TelegramBot from "node-telegram-bot-api";
-
-interface IMovieData {
-  title: string;
-  poster: string;
-  type: string;
-  genre: string;
-  link: String;
-};
+const http = require('axios').default;
+const TelegramBot = require('node-telegram-bot-api');
 
 class StraeDog {
   token = process.env.TOKEN ? process.env.TOKEN : "";
-  bot: TelegramBot = new TelegramBot(this.token);
+  bot = new TelegramBot(this.token);
   movieApiUrl = 'https://straedog-movie-server.herokuapp.com';
   devUrl = 'http://localhost:8000'
-  movieData!: IMovieData;
-  http = axios.default;
 
   startBot() {
     this.bot.startPolling();
@@ -35,16 +25,16 @@ class StraeDog {
       });
     });
   }
-  // TODO: Create Series Request
-  async requestLink() {
+  
+async requestLink() {
     this.bot.onText(/\/request (.+)/, async (msg, match) => {
       const chatId = msg.chat.id;
       const name = match ? match[1] : "";
-      this.movieData = await this.getMovie(name);
-      this.bot.sendPhoto(chatId, `${this.movieData.poster}`, {
+      const movieData = await this.getMovie(name);
+      this.bot.sendPhoto(chatId, `${movieData.poster}`, {
         reply_to_message_id: msg.message_id
       }).then((response) => {
-        this.bot.sendMessage(chatId, `*${this.movieData.title}* \n _${this.movieData.genre}_ \n ${this.movieData.link}`, {
+        this.bot.sendMessage(chatId, `*${movieData.title}* \n _${movieData.genre}_ \n ${movieData.link}`, {
           reply_to_message_id: response.message_id,
           parse_mode: 'Markdown'
         })
@@ -52,7 +42,7 @@ class StraeDog {
     });
   }
 
-  async getMovie(name: string) {
+  async getMovie(name) {
     try {
       const response = await this.http.post(`${this.movieApiUrl}/get`, { name: name });
       return response.data.data
@@ -63,4 +53,5 @@ class StraeDog {
   }
 }
 
-export default StraeDog;
+module.exports = StraeDog;
+
