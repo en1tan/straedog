@@ -67,7 +67,7 @@ class StraeDog {
 
   async getMovie(name) {
     try {
-      const response = await http.get(`${this.devUrl}/get`, {
+      const response = await http.get(`${this.movieApiUrl}/get`, {
         params: {
           name: name,
         },
